@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrasser <jrasser@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 15:29:12 by jrasser           #+#    #+#             */
-/*   Updated: 2022/03/08 23:04:45 by jrasser          ###   ########.fr       */
+/*   Updated: 2022/03/14 05:12:32 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,7 @@
 #include <stdio.h>
 
 char	*get_next_line(int fd);
+char	**ft_split(char const *s, char c);
+char	*ft_strlcat(char *dst, const char *src);
 
 #endif

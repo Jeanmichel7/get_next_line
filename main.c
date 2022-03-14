@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrasser <jrasser@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 15:52:24 by jrasser           #+#    #+#             */
-/*   Updated: 2022/03/09 03:29:12 by jrasser          ###   ########.fr       */
+/*   Updated: 2022/03/14 06:03:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 #include <stdio.h>
 #include "get_next_line.h"
 
-int	main(void)
+int main(void)
 {
-	int	fd;
+	int fd;
 	int i = 0;
 
 	fd = open("man_read.txt", O_RDONLY);
@@ -30,17 +30,13 @@ int	main(void)
 	}
 	printf("fd : %d\n", fd);
 
-	printf("%s\n", get_next_line(fd));
-	printf("%s\n", get_next_line(fd));
-	printf("%s\n", get_next_line(fd));
-	printf("%s\n", get_next_line(fd));
-	printf("%s\n", get_next_line(fd));
-	printf("%s\n", get_next_line(fd));
-	printf("%s\n", get_next_line(fd));
-	printf("%s\n", get_next_line(fd));
-	printf("%s\n", get_next_line(fd));
-	printf("%s\n", get_next_line(fd));
-	printf("%s\n", get_next_line(fd));
+
+
+
+
+	printf("\n\n\nretour main =>%s", get_next_line(fd));
+	printf("\n\n\nretour main =>%s", get_next_line(fd));
+	printf("\n\n\nretour main =>%s", get_next_line(fd));
 
 
 
