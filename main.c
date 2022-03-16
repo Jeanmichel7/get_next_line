@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jrasser <jrasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 15:52:24 by jrasser           #+#    #+#             */
-/*   Updated: 2022/03/14 06:03:43 by marvin           ###   ########.fr       */
+/*   Updated: 2022/03/16 03:42:19 by jrasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,36 @@ int main(void)
 
 
 
-	printf("\n\n\nretour main =>%s", get_next_line(fd));
-	printf("\n\n\nretour main =>%s", get_next_line(fd));
-	printf("\n\n\nretour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
+	printf("retour main =>%s", get_next_line(fd));
 
 
 
