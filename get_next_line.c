@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrasser <jrasser@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 15:29:10 by jrasser           #+#    #+#             */
-/*   Updated: 2022/03/16 03:54:19 by jrasser          ###   ########.fr       */
+/*   Updated: 2022/03/17 04:29:07 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define BUFFER_SIZE 5
+#define BUFFER_SIZE 100
 #include "get_next_line.h"
 
 /*
@@ -18,32 +18,21 @@
  *	-1 = error
  */
 
-static int is_end_file(char *str)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == EOF)
-			return (1);
-		i++;
-	}
-	return (0);
-}
 
 static int is_end_line(char *str)
 {
 	int i;
+	int	ret;
 
 	i = 0;
+	ret = 0;
 	while (str[i])
 	{
 		if (str[i] == '\n')
-			return (1);
+			ret++;
 		i++;
 	}
-	return (0);
+	return (ret);
 }
 
 char *get_next_line(int fd)
@@ -51,12 +40,13 @@ char *get_next_line(int fd)
 	char 			*buffer;
 	static char		**lines;
 	char 			*line;
+	char 			*line_tmp;
 	static char		*buffer_tmp;
 	char 			c;
 	size_t 			i;
 	static size_t 	j;
 	size_t			i_bfr;
-	int 			ret;
+	int				ret;
 	int 			nb_de_concat;
 	static int 		line_actuel;
 	static char 	*temp;
@@ -74,38 +64,82 @@ char *get_next_line(int fd)
 		buffer_tmp[BUFFER_SIZE] = '\0';
 	}
 
+	
+
+
+	/*************************************************************/
+	/*******                Verfi buffer_tmp            **********/
+	/*************************************************************/
+
+
+	printf("b_tmp dbu: '%-10s'		", buffer_tmp);
+	if (is_end_line(buffer_tmp))
+	{
+		// met de coté le après \n dans buffer_tmp
+		//retour (****\n)
+
+		line_tmp = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+		if (line_tmp == NULL)
+			return (NULL);
+		line_tmp[BUFFER_SIZE] = '\0';
+
+		// recopie le buffer_tmp dans line_tmp
+		i = 0;
+		while (buffer_tmp[i] && i < BUFFER_SIZE)
+		{
+			line_tmp[i] = buffer_tmp[i];
+			buffer_tmp[i] = '\0';
+			i++;
+		}
+		line_tmp[i] = '\0';
+		//printf("'%s' = '%s'		", line_tmp, buffer_tmp);
+		
+		i = 0;
+		while (line_tmp[i] != '\n' && line_tmp[i])
+			i++;
+		i++;
+		i_bfr = 0;
+		while (line_tmp[i] && i_bfr < BUFFER_SIZE - i)
+		{
+			buffer_tmp[i_bfr] = line_tmp[i];
+			//printf("bfr_tmp[%ld] = line_tmp[%ld] = %c = %c, %p %p\n", i_bfr, i, buffer_tmp[i_bfr], line_tmp[i], buffer_tmp, line_tmp);
+			line_tmp[i] = '\0';
+			i++;
+			i_bfr++;
+		}
+
+		buffer_tmp[i_bfr] = '\0';
+		printf("tmp '%-10s'	", buffer_tmp);
+		//printf("line_tmp : '%s' ", line_tmp);
+
+
+		line_actuel++;
+		return (line_tmp);
+
+	}
+	//printf("line : '%s' ", line);
+
+	else if (buffer_tmp)
+	{
+		line = "blaaaaaaaaaaaaa";
+		line = ft_strlcat(line, buffer_tmp);
+	}
+
+
 	// recupere text jusquau buffersize
 	ret = read(fd, buffer, BUFFER_SIZE);
-	if (ret == -1 || ret == 0)
+	if (ret == -1)
 	{
 		free(buffer);
 		return (NULL);
 	}
 	buffer[ret] = '\0';
 
-	//printf("buffer[0] = %c, %s		", buffer[0], buffer);
-	//printf("%d : %s 	=>", ret, buffer);
-	//if (is_end_file(buffer))
-	//	return (NULL);
-
-
-
-
-	//printf("buffer temp debut ligne: '%s'", buffer_tmp);
-	if (buffer_tmp[0] != 0)
-	{
-		line = "";
-		line = ft_strlcat(line, buffer_tmp);
-	}
-	//printf("line : '%s' ", line);
-
-	// printf("--------- DEBUT ---------\n");
-	// printf("buffer initial :\n'%s'\n\n", buffer);
-	//printf("ret : %d, buffer size : %d, buffer : \"%s\" \n", ret, BUFFER_SIZE, buffer);
 
 	// buffer non plein
-	if (ret < BUFFER_SIZE)	// check fin de fichier
+	if (ret < BUFFER_SIZE && ret)	// check fin de fichier
 	{
+		//printf("buffer non plein	");
 		if (ret)
 			lines = ft_split(buffer, '\n');
 		line = lines[j];
@@ -115,30 +149,34 @@ char *get_next_line(int fd)
 			i++;
 		
 		line[i] = '\n';
-		i++;
-		while (line[i])
-		{
-			line[i] = '\0';
-			i++;
-		}
+		//i++;
+		//while (line[i])
+		//{
+		//	line[i] = '\0';
+		//	i++;
+		//}
 		j++;
 		//printf("line de split : %s", line);
+		line_actuel++;
 		return (line);
 	}
+
+
 	// buffer plein
 	else if (ret == BUFFER_SIZE)
 	{
-		// printf("is end line ? : %d ", (!(is_end_line(buffer))));
 		while (!(is_end_line(buffer)))
 		{
 			if (nb_de_concat == 0)
+			{
+				//line = "";
 				line = ft_strlcat(line, buffer);
+			}
 			nb_de_concat++;
 			
 			//printf("line avant : \"%s\" ", line);
 			//line = ft_strlcat(line, buffer);
 			//printf("line apres : \"%s\"\n", line);
-			buffer[0] = '\0';
 
 			ret = read(fd, buffer, BUFFER_SIZE);
 			if (ret == -1)
@@ -164,7 +202,7 @@ char *get_next_line(int fd)
 			i++;
 		i++;
 		i_bfr = 0;
-		while (line[i])
+		while (line[i] && i_bfr < BUFFER_SIZE - i)
 		{
 			buffer_tmp[i_bfr] = line[i];
 			//printf("bfr_tmp[%d] = line[%d] = %c = %c\n", i_bfr, i, buffer_tmp[i_bfr], line[i]);
@@ -174,7 +212,7 @@ char *get_next_line(int fd)
 		}
 
 		buffer_tmp[i_bfr] = '\0';
-		//printf("buffer temp : '%s'", buffer_tmp);
+		//printf("tmp en fin '%s'\n", buffer_tmp);
 
 
 
@@ -182,8 +220,31 @@ char *get_next_line(int fd)
 		line_actuel++;
 		return (line);
 	}
+
+	// ret = 0
 	else
-		printf("hein ?!");
+	{
+		line = lines[j];
+
+		i = 0;
+		while (line[i] != '\n' && line[i])
+			i++;
+		
+		line[i] = '\n';
+		//i++;
+		//while (line[i])
+		//{
+		//	line[i] = '\0';
+		//	i++;
+		//}
+		j++;
+		//printf("line de split : %s", line);
+		line_actuel++;
+		return (line);
+	}
+
+
+
 
 	return (NULL);
 }
