@@ -6,7 +6,7 @@
 /*   By: jrasser <jrasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 15:29:07 by jrasser           #+#    #+#             */
-/*   Updated: 2022/03/16 02:27:31 by jrasser          ###   ########.fr       */
+/*   Updated: 2022/03/21 17:27:00 by jrasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,30 +82,34 @@ char	**ft_split(char const *s, char c)
 	return (tab);
 }
 
-char	*ft_strlcat(char *dst, const char *src)
+char	*ft_strlcat(char *line, char *buffer)
 {
 	size_t	i;
 	size_t	j;
-	size_t	res;
     char    *new_str;
 
-    new_str = malloc(sizeof(char) * (ft_strlen(dst) + ft_strlen(src) + 1));
+	//printf("avant : '%s'	", line);
+    new_str = malloc(sizeof(char) * (ft_strlen(line) + ft_strlen(buffer) + 1));
     if (new_str == NULL)
-        return (NULL);
+		return (NULL);
 
 	i = 0;
-	while (dst[i])
-    {
-        new_str[i] = dst[i];
+	while (line && line[i])
+	{
+		new_str[i] = line[i];
 		i++;
-    }
+	}
 	j = 0;
-	while (src[j] && i < ft_strlen(dst) + ft_strlen(src))
+	while (buffer[j] && buffer[j] != '\n')
 	{	
-		new_str[i] = src[j];
+		new_str[i] = buffer[j];
+		//buffer[j] = '\0';
 		i++;
 		j++;
 	}
+	if (buffer[j] == '\n')
+		new_str[i++] = '\n';
 	new_str[i] = '\0';
+	//printf("après : '%s'	", new_str);
 	return (new_str);
 }

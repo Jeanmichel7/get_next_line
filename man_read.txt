@@ -14,5 +14,15 @@ le premier fichier n’a pas été lu en entier.
 • Nous considérons aussi que get_next_line() a un comportement indeterminé en
 cas de lecture d’un fichier binaire. Cependant, si vous le souhaitez, vous pouvez
 rendre ce comportement cohérent.
+a
+
+
+bdsqdssq sqd sqdsqdds fin.
+ab
+
+abc
+
+
+
 
 FIN DE FICHIER

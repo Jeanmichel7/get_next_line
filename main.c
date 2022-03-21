@@ -6,7 +6,7 @@
 /*   By: jrasser <jrasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 15:52:24 by jrasser           #+#    #+#             */
-/*   Updated: 2022/03/16 03:42:19 by jrasser          ###   ########.fr       */
+/*   Updated: 2022/03/21 17:58:13 by jrasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 int main(void)
 {
 	int fd;
-	int i = 0;
 
 	fd = open("man_read.txt", O_RDONLY);
 	if (fd == -1)
@@ -34,36 +33,36 @@ int main(void)
 
 
 
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
-	printf("retour main =>%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
 
 
 

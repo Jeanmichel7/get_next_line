@@ -6,11 +6,11 @@
 /*   By: jrasser <jrasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 15:29:10 by jrasser           #+#    #+#             */
-/*   Updated: 2022/03/16 03:54:19 by jrasser          ###   ########.fr       */
+/*   Updated: 2022/03/21 18:01:20 by jrasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define BUFFER_SIZE 5
+#define BUFFER_SIZE 10
 #include "get_next_line.h"
 
 /*
@@ -18,36 +18,137 @@
  *	-1 = error
  */
 
-static int is_end_file(char *str)
+int is_buffer_empty(char *buffer)
 {
 	int i;
 
+	if (buffer == NULL)
+		return (1);
 	i = 0;
-	while (str[i])
+	while (i < BUFFER_SIZE)
 	{
-		if (str[i] == EOF)
-			return (1);
+		if (buffer[i] != 0)
+			return (0);
 		i++;
 	}
-	return (0);
+	return (1);
 }
 
-static int is_end_line(char *str)
+int is_buffer_end_line(char *buffer)
 {
 	int i;
 
 	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '\n')
-			return (1);
+	while (i < BUFFER_SIZE && buffer[i] != '\n')
 		i++;
+	if (i == BUFFER_SIZE)
+		return (0);
+	return (1);
+}
+
+int ft_read(int fd, char *buffer)
+{
+	int ret;
+
+	ret = read(fd, buffer, BUFFER_SIZE);
+	if (ret == -1)
+	{
+		free(buffer);
+		return (-1);
 	}
-	return (0);
+	buffer[ret] = '\0';
+	return (ret);
 }
 
 char *get_next_line(int fd)
 {
+	// char		*line_tmp;
+	char 		*line;
+	static char *buffer;
+	int 		ret;
+	int 		i;
+
+	i = 0;
+	line = malloc(sizeof(char));
+	if (line == NULL)
+		return (NULL);
+	line[0] = '\0';
+
+
+	//printf("contenu buffer : '%s'\n",buffer);
+
+	// si buffer est vide
+	if (is_buffer_empty(buffer))
+	{
+		buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+		if (buffer == NULL)
+			return (NULL);
+		while (i < BUFFER_SIZE)
+			buffer[i++] = '\0';
+
+		ret = read(fd, buffer, BUFFER_SIZE);
+		if (ret == -1)
+		{
+			free(buffer);
+			return (NULL);
+		}
+		buffer[ret] = '\0';
+		line = ft_strlcat(line, buffer);
+	}
+	else
+		line = ft_strlcat(line, buffer);
+
+	if (ret < 1)
+		return (NULL);
+
+	// tant que buffer contient pas \n
+	while (!(is_buffer_end_line(buffer)) && ret > 0)
+	{
+		//printf("a");
+
+		ret = ft_read(fd, buffer);
+		if (ret == -1)
+			return (NULL);
+		line = ft_strlcat(line, buffer);
+	}
+	//printf("buffer avt '%s'", buffer);
+
+	i = 0;
+	while (i < BUFFER_SIZE && buffer[i] != '\n' && ret > 0)
+	{
+		//printf("buffer[%d] : '%c'	\n", i, buffer[i]); 
+		buffer[i] = '\0';
+		i++;
+	}
+	buffer[i] = '\0';
+
+	buffer = buffer + i + 1;
+	//printf("buffer apres '%s'", buffer);
+
+	return (line);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 	char 			*buffer;
 	static char		**lines;
 	char 			*line;
@@ -76,15 +177,15 @@ char *get_next_line(int fd)
 
 	// recupere text jusquau buffersize
 	ret = read(fd, buffer, BUFFER_SIZE);
-	if (ret == -1 || ret == 0)
+	if (ret == -1)
 	{
 		free(buffer);
 		return (NULL);
 	}
 	buffer[ret] = '\0';
 
-	//printf("buffer[0] = %c, %s		", buffer[0], buffer);
-	//printf("%d : %s 	=>", ret, buffer);
+	//printf("buffer[0] = %c", buffer[0]);
+	printf("%d : %s 	=>", ret, buffer);
 	//if (is_end_file(buffer))
 	//	return (NULL);
 
@@ -113,7 +214,7 @@ char *get_next_line(int fd)
 		i = 0;
 		while (line[i] != '\n' && line[i])
 			i++;
-		
+
 		line[i] = '\n';
 		i++;
 		while (line[i])
@@ -134,7 +235,7 @@ char *get_next_line(int fd)
 			if (nb_de_concat == 0)
 				line = ft_strlcat(line, buffer);
 			nb_de_concat++;
-			
+
 			//printf("line avant : \"%s\" ", line);
 			//line = ft_strlcat(line, buffer);
 			//printf("line apres : \"%s\"\n", line);
@@ -155,7 +256,7 @@ char *get_next_line(int fd)
 			// printf("fin de la ligne : \"%s\"\n\n\n", buffer);
 		}
 		//printf("ligne actuel : %d, nb de concat : %d\n", line_actuel, nb_de_concat);
-		
+
 
 
 		// buffer avec retour ligne
@@ -186,7 +287,7 @@ char *get_next_line(int fd)
 		printf("hein ?!");
 
 	return (NULL);
-}
+*/
 
 /*
 	i = 0;
