@@ -6,7 +6,7 @@
 /*   By: jrasser <jrasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 15:29:07 by jrasser           #+#    #+#             */
-/*   Updated: 2022/03/21 21:26:55 by jrasser          ###   ########.fr       */
+/*   Updated: 2022/03/21 22:05:17 by jrasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,70 +16,12 @@ size_t  ft_strlen(const char *str)
 {
     size_t  i;
 
+	if (!str)
+		return (0);
     i = 0;
     while (str[i])
         i++;
     return (i);
-}
-
-static unsigned int	ft_count(const char *s, char c)
-{
-	unsigned int	count;
-	unsigned int	i;
-
-	i = 0;
-	count = 0;
-	while (s[i])
-	{
-		while (s[i] == c && s[i])
-			i++;
-		while (s[i] != c && s[i])
-			i++;
-		if (s[i])
-			count++;
-		else
-			if (s[i - 1] != c)
-				count++;
-	}
-	return (count);
-}
-
-char	*ft_sub_split(char const *s, char c, unsigned int *j)
-{
-	char			*str;
-	unsigned int	k;
-
-	str = malloc(sizeof(char) * (ft_strlen(s) + 1));
-	if (str == NULL)
-		return (NULL);
-	k = 0;
-	while (s[*j] == c && s[*j])
-		(*j)++;
-	while (s[*j] != c && s[*j])
-		str[k++] = s[(*j)++];
-	str[k] = '\0';
-	return (str);
-}
-
-char	**ft_split(char const *s, char c)
-{
-	char			**tab;
-	unsigned int	i;
-	unsigned int	j;
-
-	if (!s)
-		return (NULL);
-	tab = malloc(sizeof(char *) * (ft_count(s, c) + 1));
-	if (tab == NULL)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (i < ft_count(s, c))
-	{
-		tab[i++] = ft_sub_split(s, c, &j);
-	}	
-	tab[i] = NULL;
-	return (tab);
 }
 
 char	*ft_strlcat(char *line, char *buffer)
@@ -112,4 +54,18 @@ char	*ft_strlcat(char *line, char *buffer)
 	new_str[i] = '\0';
 	//printf("après : '%s'	", new_str);
 	return (new_str);
+}
+
+char	*update_buffer(char *buffer)
+{
+	int	i;
+
+	i = 0;
+	while (buffer[i] && buffer[i] != '\n')
+		i++;
+	if (i == BUFFER_SIZE)
+		free(buffer);
+	else 
+		buffer = buffer + i + 1;
+	return (buffer);
 }

@@ -1,4 +1,5 @@
 DEBUT DE FICHIER
+
 Votre programme doit compiler avec l’option : -D BUFFER_SIZE=n
 Cette macro définie à l’invocation du compilateur servira à spécifier la taille du
 buffer lors de vos appels à read() dans votre fonction get_next_line().

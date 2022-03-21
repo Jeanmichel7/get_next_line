@@ -6,7 +6,7 @@
 /*   By: jrasser <jrasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 15:29:10 by jrasser           #+#    #+#             */
-/*   Updated: 2022/03/21 21:31:59 by jrasser          ###   ########.fr       */
+/*   Updated: 2022/03/21 22:05:29 by jrasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,11 @@ int is_buffer_end_line(char *buffer)
 {
 	int i;
 
-	//printf("buffer %p '%s' contient fin ?",buffer, buffer);
-
 	i = 0;
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
-	//printf(" check end line : '%s'	char '%c'\n", buffer, buffer[i]);
-
 	if (buffer[i] && buffer[i] == '\n')
-	{
-		//printf(" 1 \n");
 		return (1);
-	}
-	//printf(" 0 \n");
 	return (0);
 }
 
@@ -62,77 +54,42 @@ int ft_read(int fd, char *buffer)
 	return (ret);
 }
 
+char	*ft_calloc(char *buffer)
+{
+	int	i;
+
+	i = 0;
+	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (buffer == NULL)
+		return (NULL);
+	while (i < BUFFER_SIZE)
+		buffer[i++] = '\0';
+	return (buffer);
+}
+
 char *get_next_line(int fd)
 {
 	char 		*line;
 	static char *buffer;
 	int 		ret;
-	int 		i;
 
-	i = 0;
 	line = malloc(sizeof(char));
 	if (line == NULL)
 		return (NULL);
-	line[0] = '\0';
-
-
-	//printf("contenu : '%s'\n",buffer);
-
-	// si buffer est vide
 	if (is_buffer_empty(buffer))
 	{
-		buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-		if (buffer == NULL)
-			return (NULL);
-		while (i < BUFFER_SIZE)
-			buffer[i++] = '\0';
-
-		ret = read(fd, buffer, BUFFER_SIZE);
-		if (ret == -1)
-		{
-			free(buffer);
-			return (NULL);
-		}
-		buffer[ret] = '\0';
-		line = ft_strlcat(line, buffer);
+		buffer = ft_calloc(buffer);
+		ret = ft_read(fd, buffer);
 	}
-	else
-		line = ft_strlcat(line, buffer);
-
-
-	// fin de fichier
+	line = ft_strlcat(line, buffer);
 	if (ret < 1)
 		return (NULL);
-
-	// tant que buffer contient pas \n
-	//printf(" '%18s'	contient \\n ? '%d' ", buffer, is_buffer_end_line(buffer));
-	while (!(is_buffer_end_line(buffer)))
+	while (!(is_buffer_end_line(buffer)) && ret > 0)
 	{
-		//printf("a");
-
 		ret = ft_read(fd, buffer);
-		if (ret == -1)
-			return (NULL);
 		line = ft_strlcat(line, buffer);
 	}
-	//printf("buffer avt '%s'", buffer);
-
-	// vide le buffer utilisé
-	i = 0;
-	while (buffer[i] && buffer[i] != '\n')
-	{
-		//printf("buffer[%d] : '%c'	\n", i, buffer[i]); 
-		buffer[i] = '0';
-		i++;
-	}
-	buffer[i] = '0';
-
-	if (i == BUFFER_SIZE)
-		buffer = NULL;
-	else
-		buffer = buffer + i + 1;
-	//printf("buffer apres '%s'\n", buffer);
-
+	buffer = update_buffer(buffer);
 	return (line);
 }
 
