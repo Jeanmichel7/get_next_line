@@ -6,17 +6,11 @@
 /*   By: jrasser <jrasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 15:29:10 by jrasser           #+#    #+#             */
-/*   Updated: 2022/03/21 18:01:20 by jrasser          ###   ########.fr       */
+/*   Updated: 2022/03/21 21:31:59 by jrasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define BUFFER_SIZE 10
 #include "get_next_line.h"
-
-/*
- * 	0  = fin de fichier
- *	-1 = error
- */
 
 int is_buffer_empty(char *buffer)
 {
@@ -38,12 +32,20 @@ int is_buffer_end_line(char *buffer)
 {
 	int i;
 
+	//printf("buffer %p '%s' contient fin ?",buffer, buffer);
+
 	i = 0;
-	while (i < BUFFER_SIZE && buffer[i] != '\n')
+	while (buffer[i] && buffer[i] != '\n')
 		i++;
-	if (i == BUFFER_SIZE)
-		return (0);
-	return (1);
+	//printf(" check end line : '%s'	char '%c'\n", buffer, buffer[i]);
+
+	if (buffer[i] && buffer[i] == '\n')
+	{
+		//printf(" 1 \n");
+		return (1);
+	}
+	//printf(" 0 \n");
+	return (0);
 }
 
 int ft_read(int fd, char *buffer)
@@ -62,7 +64,6 @@ int ft_read(int fd, char *buffer)
 
 char *get_next_line(int fd)
 {
-	// char		*line_tmp;
 	char 		*line;
 	static char *buffer;
 	int 		ret;
@@ -75,7 +76,7 @@ char *get_next_line(int fd)
 	line[0] = '\0';
 
 
-	//printf("contenu buffer : '%s'\n",buffer);
+	//printf("contenu : '%s'\n",buffer);
 
 	// si buffer est vide
 	if (is_buffer_empty(buffer))
@@ -98,11 +99,14 @@ char *get_next_line(int fd)
 	else
 		line = ft_strlcat(line, buffer);
 
+
+	// fin de fichier
 	if (ret < 1)
 		return (NULL);
 
 	// tant que buffer contient pas \n
-	while (!(is_buffer_end_line(buffer)) && ret > 0)
+	//printf(" '%18s'	contient \\n ? '%d' ", buffer, is_buffer_end_line(buffer));
+	while (!(is_buffer_end_line(buffer)))
 	{
 		//printf("a");
 
@@ -113,17 +117,21 @@ char *get_next_line(int fd)
 	}
 	//printf("buffer avt '%s'", buffer);
 
+	// vide le buffer utilisé
 	i = 0;
-	while (i < BUFFER_SIZE && buffer[i] != '\n' && ret > 0)
+	while (buffer[i] && buffer[i] != '\n')
 	{
 		//printf("buffer[%d] : '%c'	\n", i, buffer[i]); 
-		buffer[i] = '\0';
+		buffer[i] = '0';
 		i++;
 	}
-	buffer[i] = '\0';
+	buffer[i] = '0';
 
-	buffer = buffer + i + 1;
-	//printf("buffer apres '%s'", buffer);
+	if (i == BUFFER_SIZE)
+		buffer = NULL;
+	else
+		buffer = buffer + i + 1;
+	//printf("buffer apres '%s'\n", buffer);
 
 	return (line);
 }
