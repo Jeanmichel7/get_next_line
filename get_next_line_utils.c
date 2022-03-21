@@ -6,7 +6,7 @@
 /*   By: jrasser <jrasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 15:29:07 by jrasser           #+#    #+#             */
-/*   Updated: 2022/03/21 22:11:25 by jrasser          ###   ########.fr       */
+/*   Updated: 2022/03/21 22:13:53 by jrasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,32 @@ char	*update_buffer(char *buffer)
 	else
 		buffer = buffer + i + 1;
 	return (buffer);
+}
+
+int	is_buffer_empty(char *buffer)
+{
+	int	i;
+
+	if (buffer == NULL)
+		return (1);
+	i = 0;
+	while (i < BUFFER_SIZE)
+	{
+		if (buffer[i] != 0)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	is_buffer_end_line(char *buffer)
+{
+	int	i;
+
+	i = 0;
+	while (buffer[i] && buffer[i] != '\n')
+		i++;
+	if (buffer[i] && buffer[i] == '\n')
+		return (1);
+	return (0);
 }
