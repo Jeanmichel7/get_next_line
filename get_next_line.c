@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrasser <jrasser@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrasser <jrasser@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 15:29:10 by jrasser           #+#    #+#             */
-/*   Updated: 2022/03/22 18:58:53 by jrasser          ###   ########.fr       */
+/*   Updated: 2022/03/22 21:45:30 by jrasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,28 +41,27 @@ char	*ft_calloc(char *buffer)
 
 char	*get_next_line(int fd)
 {
-	char		*line;
 	static char	*buffer;
+	char		*line;
 	int			ret;
 
 	line = NULL;
 	ret = 1;
-	//printf("buffer : %s		", buffer);
 	if (is_buffer_empty(buffer))
 	{
 		buffer = ft_calloc(buffer);
 		ret = ft_read(fd, buffer);
 	}
-	if (ret < 1)
-		return (NULL);
 	line = ft_strlcat(line, buffer);
-	//printf("ret : %d	", ret);
 	while (!(is_buffer_end_line(buffer)) && ret > 0)
 	{
 		ret = ft_read(fd, buffer);
 		line = ft_strlcat(line, buffer);
-		//printf("buffer : '%s'		line '%s'	", buffer, line);
 	}
+	if (ret == 0 && line[0])
+		return (line);
+	else if (ret == 0)
+		return (NULL);
 	buffer = update_buffer(buffer);
 	return (line);
 }
