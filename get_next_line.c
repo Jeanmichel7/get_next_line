@@ -6,7 +6,7 @@
 /*   By: jrasser <jrasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 15:29:10 by jrasser           #+#    #+#             */
-/*   Updated: 2022/03/21 22:21:07 by jrasser          ###   ########.fr       */
+/*   Updated: 2022/03/22 18:58:53 by jrasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,21 +45,23 @@ char	*get_next_line(int fd)
 	static char	*buffer;
 	int			ret;
 
-	line = malloc(sizeof(char));
-	if (line == NULL)
-		return (NULL);
+	line = NULL;
+	ret = 1;
+	//printf("buffer : %s		", buffer);
 	if (is_buffer_empty(buffer))
 	{
 		buffer = ft_calloc(buffer);
 		ret = ft_read(fd, buffer);
 	}
-	line = ft_strlcat(line, buffer);
 	if (ret < 1)
 		return (NULL);
+	line = ft_strlcat(line, buffer);
+	//printf("ret : %d	", ret);
 	while (!(is_buffer_end_line(buffer)) && ret > 0)
 	{
 		ret = ft_read(fd, buffer);
 		line = ft_strlcat(line, buffer);
+		//printf("buffer : '%s'		line '%s'	", buffer, line);
 	}
 	buffer = update_buffer(buffer);
 	return (line);
