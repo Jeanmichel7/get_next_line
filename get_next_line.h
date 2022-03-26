@@ -6,7 +6,7 @@
 /*   By: jrasser <jrasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 15:29:12 by jrasser           #+#    #+#             */
-/*   Updated: 2022/03/26 04:37:25 by jrasser          ###   ########.fr       */
+/*   Updated: 2022/03/26 23:47:12 by jrasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,13 @@
 # include <fcntl.h>
 
 char	*get_next_line(int fd);
-char	*ft_strlcat(char *dst, char *src);
+char	*ft_strconcat(char *dst, char *src);
 size_t  ft_strlen(const char *str);
 char	*update_buffer(char *buffer);
-int     is_buffer_end_line(char *buffer);
-int     is_buffer_empty(char *buffer);
+int     ft_is_buffer_end_line(char *buffer);
+int     ft_check_buffer_empty(char **buffer, int fd);
+char	*ft_calloc(char *buffer, long size);
+int	    ft_read(int fd, char *buffer);
 
 #endif
 
