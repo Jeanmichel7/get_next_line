@@ -6,7 +6,7 @@
 /*   By: jrasser <jrasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 15:29:07 by jrasser           #+#    #+#             */
-/*   Updated: 2022/03/26 23:47:08 by jrasser          ###   ########.fr       */
+/*   Updated: 2022/03/27 00:10:39 by jrasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	ft_check_buffer_empty(char **buffer, int fd)
 
 int	ft_is_buffer_end_line(char *buffer)
 {
-	int	i;
+	unsigned long	i;
 
 	i = 0;
 	while (buffer[i] && buffer[i] != '\n')
