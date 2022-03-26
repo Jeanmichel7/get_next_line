@@ -6,7 +6,7 @@
 /*   By: jrasser <jrasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 15:29:10 by jrasser           #+#    #+#             */
-/*   Updated: 2022/03/26 19:58:09 by jrasser          ###   ########.fr       */
+/*   Updated: 2022/03/26 22:13:58 by jrasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,76 @@ char	*get_next_line(int fd)
 	static char	*buffer;
 	char		*line;
 	int			ret;
-	int			repet = 0;
 
+	if (buffer && buffer[0] == '\0')
+	{
+		free(buffer);
+		return (NULL);
+	}
+	line = malloc(sizeof(char));
+	line[0] = '\0';
+	ret = 1;
+	if (is_buffer_empty(buffer))
+	{
+		buffer = ft_calloc(buffer, BUFFER_SIZE);
+		ret = ft_read(fd, buffer);
+		if (ret < 1)
+		{
+			free(buffer);
+			return (NULL);
+		}
+	}
+	line = ft_strlcat(line, buffer);
+	while (!(is_buffer_end_line(buffer)) && ret > 0)
+	{
+		if (ft_strlen(buffer) != BUFFER_SIZE)
+		{
+			free(buffer);
+			buffer = ft_calloc(buffer, BUFFER_SIZE);
+		}
+		ret = ft_read(fd, buffer);
+		if (ret == -1)
+			return (NULL);
+		else if (ret == 0)
+		{
+			if (line)
+				return (line);
+			free(buffer);
+			return (NULL);
+		}
+		line = ft_strlcat(line, buffer);
+	}
+	if (ret == 0 && !(is_buffer_empty(line)))
+	{
+		if (buffer[0] != '\0')
+			buffer = update_buffer(buffer);
+		if (buffer[0] == 0)
+			free(buffer);
+		return (line);
+	}
+	else if (ret == 0)
+	{
+		free (line);
+		if (buffer && buffer[0] == '\0')
+			free(buffer);
+		return (NULL);
+	}
+	if (buffer[0] != '\0')
+		buffer = update_buffer(buffer);
+	if (buffer && buffer[0] == '\0')
+		free(buffer);
+	return (line);
+}
+
+
+/*
+char	*get_next_line(int fd)
+{
+	static char	*buffer;
+	char		*line;
+	int			ret;
+
+	printf("buffer temp : '%s'\n", buffer);
 	if (buffer && buffer[0] == '\0')
 	{
 		free(buffer);
@@ -97,8 +165,8 @@ char	*get_next_line(int fd)
 			return (NULL);
 		}
 		line = ft_strlcat(line, buffer);
-		repet++;
 	}
+	printf("ret : %d\nbuffer : '%s'\nline : '%s'\n", ret, buffer, line);
 	if (ret == 0 && !(is_buffer_empty(line)))
 	{
 		if (buffer[0] != '\0')
@@ -110,14 +178,14 @@ char	*get_next_line(int fd)
 	else if (ret == 0)
 	{
 		free (line);
-		if (buffer && buffer[0] == 0)
+		if (buffer && buffer[0] == '\0')
 			free(buffer);
 		return (NULL);
 	}
-	//printf("buffer : '%s'\n", buffer);
 	if (buffer[0] != '\0')
 		buffer = update_buffer(buffer);
-	if (buffer && buffer[0] == 0)
+	if (buffer && buffer[0] == '\0')
 		free(buffer);
 	return (line);
 }
+*/

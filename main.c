@@ -6,7 +6,7 @@
 /*   By: jrasser <jrasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 15:52:24 by jrasser           #+#    #+#             */
-/*   Updated: 2022/03/26 19:50:03 by jrasser          ###   ########.fr       */
+/*   Updated: 2022/03/26 22:19:31 by jrasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(void)
 	int		fd;
 	char	*str;
 
-	fd = open("man_read2.txt", O_RDONLY);
+	fd = open("man_read.txt", O_RDONLY);
 	if (fd == -1)
 	{
 		printf("imposible d'ouvrir le fichier\n");
