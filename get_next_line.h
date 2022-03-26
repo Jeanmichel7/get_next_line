@@ -6,13 +6,12 @@
 /*   By: jrasser <jrasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 15:29:12 by jrasser           #+#    #+#             */
-/*   Updated: 2022/03/25 19:49:23 by jrasser          ###   ########.fr       */
+/*   Updated: 2022/03/26 04:37:25 by jrasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE
 # define GET_NEXT_LINE
-
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -30,11 +29,7 @@ int     is_buffer_empty(char *buffer);
 
 #endif
 
-
 /* BUFFER_SIZE */
-
 #ifndef BUFFER_SIZE
-
-# define BUFFER_SIZE 10
-
+# define BUFFER_SIZE 100
 #endif

@@ -6,7 +6,7 @@
 /*   By: jrasser <jrasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 15:52:24 by jrasser           #+#    #+#             */
-/*   Updated: 2022/03/26 00:48:34 by jrasser          ###   ########.fr       */
+/*   Updated: 2022/03/26 19:50:03 by jrasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	main(void)
 	printf("fd : %d\n", fd);
 	while ((str = get_next_line(fd)))
 	{
-		printf("MAIN => %s", str);
+		printf("%s", str);
 		free(str);
 	}
 	printf("\n");
