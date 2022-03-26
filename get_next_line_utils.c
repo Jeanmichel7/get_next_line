@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrasser <jrasser@42.fr>                    +#+  +:+       +#+        */
+/*   By: jrasser <jrasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 15:29:07 by jrasser           #+#    #+#             */
-/*   Updated: 2022/03/22 21:40:23 by jrasser          ###   ########.fr       */
+/*   Updated: 2022/03/26 01:11:18 by jrasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*ft_strlcat(char *line, char *buffer)
 	size_t	j;
 	char	*new_str;
 
-	new_str = malloc(sizeof(char) * (ft_strlen(line) + ft_strlen(buffer) + 1));
+	new_str = malloc(sizeof(char) * (ft_strlen(line) + ft_strlen(buffer)) + 1);
 	if (new_str == NULL)
 		return (NULL);
 	i = 0;
@@ -39,47 +39,56 @@ char	*ft_strlcat(char *line, char *buffer)
 		new_str[i] = line[i];
 		i++;
 	}
+	free(line);
 	j = 0;
 	while (buffer[j] && buffer[j] != '\n')
-	{	
-		new_str[i] = buffer[j];
-		i++;
-		j++;
-	}
+		new_str[i++] = buffer[j++];
 	if (buffer[j] == '\n')
-	{
-		new_str[i++] = '\n';
-		//free(buffer);
-	}
-	//free(line);
+		new_str[i++] = buffer[j++];
 	new_str[i] = '\0';
 	return (new_str);
 }
 
 char	*update_buffer(char *buffer)
 {
-	int	i;
+	int		i;
+	int		j;
+	char	*tmp;
 
 	i = 0;
-	while (buffer[i] && buffer[i] != '\n')
+	while (buffer[i] != '\n' && i < BUFFER_SIZE)
 		i++;
-	if (i == BUFFER_SIZE)
+	tmp = malloc(sizeof(char) * (BUFFER_SIZE - i + 1));
+	if (tmp == NULL)
+		return (NULL);
+	i++;
+	j = 0;
+	while (i < BUFFER_SIZE && buffer[i])
 	{
-		free(buffer);
+		tmp[j] = buffer[i];
+		i++;
+		j++;
+	}
+	tmp[j] = '\0';
+	free(buffer);
+	if (tmp[0] == '\0')
+	{
+		free(tmp);
 		return (NULL);
 	}
-	buffer = buffer + i + 1;
-	return (buffer);
+	return (tmp);
 }
 
 int	is_buffer_empty(char *buffer)
 {
-	int	i;
+	size_t	i;
+	size_t	len;
 
-	if (buffer == NULL)
+	len = ft_strlen(buffer);
+	if (buffer == NULL || len == 0)
 		return (1);
 	i = 0;
-	while (i < BUFFER_SIZE)
+	while (i < len)
 	{
 		if (buffer[i] != 0)
 			return (0);

@@ -1,0 +1,14 @@
+DEBUT DE FICHIER
+Votre programme doit compiler avec l’option : -D BUFFER_SIZE=n
+a
+bdsqdssq sqd sqdsqdds fin.
+ab
+
+abc
+
+
+
+• Nous considérons aussi que get_next_line() a un comportement indeterminé en
+cas de lecture d’un fichier binaire. Cependant, si vous le souhaitez, vous pouvez
+rendre ce comportement cohérent.
+FIN DE FICHIER
